@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar Yield Comparison</title>
+    <title>Solar Yield Comparison for Zurich</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
@@ -27,20 +27,76 @@
             width: 90vw;
             max-width: 800px;
         }
+        .btn-active {
+            background-color: #2563eb; /* bg-blue-600 */
+            color: white;
+        }
+        .btn-inactive {
+            background-color: white;
+            color: #374151; /* text-gray-700 */
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         
+        <div id="schematic" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 text-center">System Setup Schematic</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6 text-center">
+                <!-- Panels -->
+                <div class="flex flex-col items-center">
+                    <div class="flex space-x-2">
+                        <div class="p-4 border-2 border-blue-400 rounded-lg bg-blue-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-grid-3x3-gap-fill text-blue-600" viewBox="0 0 16 16"><path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/></svg>
+                        </div>
+                        <div class="p-4 border-2 border-blue-400 rounded-lg bg-blue-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-grid-3x3-gap-fill text-blue-600" viewBox="0 0 16 16"><path d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z"/></svg>
+                        </div>
+                    </div>
+                    <p class="mt-2 font-semibold">2x 110W Panels</p>
+                    <p class="text-sm text-gray-500">MST-FSP-110W</p>
+                </div>
+                <div class="font-bold text-2xl text-gray-400">→</div>
+                <!-- Controller -->
+                <div class="flex flex-col items-center">
+                    <div class="p-4 border-2 border-green-400 rounded-lg bg-green-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-cpu-fill text-green-600" viewBox="0 0 16 16"><path d="M6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/><path d="M.5 2.5a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h15a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5h-15zM2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm6.5 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5-.5h-3a.5.5 0 0 1-.5-.5v-3zM3.5 5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5-.5h-3a.5.5 0 0 1-.5-.5v-3zM3 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5-.5h-3a.5.5 0 0 1-.5-.5v-3zm5.5.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5-.5h-3a.5.5 0 0 1-.5-.5v-3z"/></svg>
+                    </div>
+                    <p class="mt-2 font-semibold">MPPT Controller</p>
+                    <p class="text-sm text-gray-500">Victron 75/15</p>
+                </div>
+                <div class="font-bold text-2xl text-gray-400">→</div>
+                <!-- Battery -->
+                <div class="flex flex-col items-center">
+                    <div class="p-4 border-2 border-yellow-400 rounded-lg bg-yellow-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-battery-charging text-yellow-600" viewBox="0 0 16 16"><path d="M2.174 4.143a.5.5 0 0 1 .5-.5h7.852a.5.5 0 0 1 .5.5v7.714a.5.5 0 0 1-.5.5H2.674a.5.5 0 0 1-.5-.5V4.143zm10.826 2.857a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1h-2v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h1v-1a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1h2v-1a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1h1z"/><path d="M2 3a1 1 0 0 0-1 1v7.714a1 1 0 0 0 1 1h7.852a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2zm11.5 1a.5.5 0 0 1 .5.5v3.357a.5.5 0 0 1-.5.5h-1.357a.5.5 0 0 1-.5-.5V4.5a.5.5 0 0 1 .5-.5h1.357z"/></svg>
+                    </div>
+                    <p class="mt-2 font-semibold">LiFePO4 Battery</p>
+                    <p class="text-sm text-gray-500">12.8V / 50Ah</p>
+                </div>
+                <div class="font-bold text-2xl text-gray-400">→</div>
+                 <!-- Load -->
+                <div class="flex flex-col items-center">
+                    <div class="p-4 border-2 border-purple-400 rounded-lg bg-purple-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-lightbulb-fill text-purple-600" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13h-5a.5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm3 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1-.5-.5z"/></svg>
+                    </div>
+                    <p class="mt-2 font-semibold">DC Load</p>
+                    <p class="text-sm text-gray-500">e.g., Lights, USB</p>
+                </div>
+            </div>
+        </div>
+
+        
+
         <div id="yield-comparison" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Balcony Solar Yield Comparison</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Balcony Solar Yield Comparison</h2>
             <p class="text-gray-600 mb-4">Comparing different system setups in Zurich. Dashed line represents annual average.</p>
             <div class="flex justify-center items-center space-x-4 mb-6 bg-gray-100 p-2 rounded-lg max-w-xs mx-auto">
                 <label class="text-sm font-medium text-gray-700">View:</label>
                 <div class="flex space-x-2">
-                    <button id="viewMonthlyBtn" class="px-3 py-1 text-sm font-semibold text-white bg-blue-600 rounded-md shadow-sm">Monthly</button>
-                    <button id="viewDailyBtn" class="px-3 py-1 text-sm font-semibold text-gray-700 bg-white rounded-md shadow-sm">Daily</button>
+                    <button id="viewMonthlyBtn" class="px-3 py-1 text-sm font-semibold btn-active rounded-md shadow-sm">Monthly</button>
+                    <button id="viewDailyBtn" class="px-3 py-1 text-sm font-semibold btn-inactive rounded-md shadow-sm">Daily</button>
                 </div>
             </div>
             <div class="chart-container">
@@ -56,6 +112,28 @@
             </div>
         </div>
 
+        <div id="ideal-scenario" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Ideal vs. Static Tilt Scenario</h2>
+            <p class="text-gray-600 mb-4">Comparing systems with seasonal tilt adjustments against a static 80° tilt.</p>
+            <div class="small-chart-container mb-6">
+                <canvas id="idealScenarioChart"></canvas>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-gray-500">Static (80°)</h3>
+                    <p class="text-3xl font-bold text-gray-700" id="staticTotalYield">179 kWh/year</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h3 class="text-lg font-semibold text-blue-800">Optimized (70°/85°)</h3>
+                    <p class="text-3xl font-bold text-blue-600" id="optimizedTotalYield">191 kWh/year</p>
+                </div>
+                 <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <h3 class="text-lg font-semibold text-green-800">Ideal (65°/85°)</h3>
+                    <p class="text-3xl font-bold text-green-600" id="idealTotalYield">196 kWh/year</p>
+                </div>
+            </div>
+        </div>
+
         <div id="financial-analysis" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Financial Payback Analysis</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
@@ -65,19 +143,19 @@
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Est. Annual Savings</h3>
-                    <p class="text-3xl font-bold text-blue-600" id="annualSavings">~53 CHF</p>
+                    <p class="text-3xl font-bold text-blue-600" id="annualSavings">~51 CHF</p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Simple Payback Period</h3>
-                    <p class="text-3xl font-bold text-blue-600" id="paybackPeriod">~11.1 Years</p>
+                    <p class="text-3xl font-bold text-blue-600" id="paybackPeriod">~11.5 Years</p>
                 </div>
             </div>
-            <p class="text-xs text-gray-500 mt-4">Calculations based on the 220W system with 65° tilt (202 kWh/year) and an electricity price of 0.26 CHF/kWh. Does not include potential battery degradation or feed-in tariffs.</p>
+            <p class="text-xs text-gray-500 mt-4">Calculations based on the Ideal (65°/85°) system (196 kWh/year) and an electricity price of 0.26 CHF/kWh.</p>
         </div>
 
         <div id="autarky-analysis" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Monthly Autarky (Self-Sufficiency)</h2>
-            <p class="text-gray-600 mb-4">The percentage of your 150 kWh monthly consumption that could be covered by the solar system's production (220W, 65° tilt).</p>
+            <p class="text-gray-600 mb-4">The percentage of your 150 kWh monthly consumption that could be covered by the solar system's production (Ideal 65°/85° setup).</p>
             <div class="small-chart-container">
                 <canvas id="autarkyChart"></canvas>
             </div>
@@ -103,7 +181,7 @@
                 <canvas id="chargingCurveChart"></canvas>
             </div>
         </div>
-
+        
         <div id="autonomy-calculator" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Battery Autonomy Calculator</h2>
             <p class="text-gray-600 mb-4">Estimate how long your batteries can sustain a continuous load with no solar input.</p>
@@ -124,12 +202,39 @@
             </div>
         </div>
 
+        <div id="series-parallel" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Interactive Series vs. Parallel Wiring</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="flex items-center justify-center space-x-4">
+                    <label for="panelInput" class="font-semibold">Panels:</label>
+                    <input type="number" id="panelInput" value="2" min="1" max="10" class="w-20 p-2 border border-gray-300 rounded-lg text-center">
+                </div>
+                <div class="flex items-center justify-center space-x-2">
+                    <button id="wiringJuneBtn" class="px-3 py-2 text-sm font-semibold btn-active rounded-md shadow-sm">June Day</button>
+                    <button id="wiringOctBtn" class="px-3 py-2 text-sm font-semibold btn-inactive rounded-md shadow-sm">October Day</button>
+                </div>
+            </div>
+             <div class="flex items-center justify-center mb-4">
+                <input type="checkbox" id="ignoreLimitsCheck" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                <label for="ignoreLimitsCheck" class="ml-2 block text-sm text-gray-900">Ignore Controller Limits (Theoretical Max)</label>
+            </div>
+            <div id="wiringWarning" class="text-center text-red-600 font-semibold mb-4 h-5"></div>
+            <div class="small-chart-container mb-8">
+                <canvas id="seriesParallelChart"></canvas>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 text-center">Quantified Gain from Series Wiring</h3>
+            <div class="small-chart-container">
+                <canvas id="seriesParallelGainChart"></canvas>
+            </div>
+        </div>
+
     </div>
 
     <script>
         // --- DATA ---
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        const productionTimeLabels24h = Array.from({length: 24}, (_, i) => new Date(2025, 5, 14, i, 0));
         const productionTimeLabels48h = Array.from({length: 48}, (_, i) => new Date(2025, 5, 14, i, 0));
         
         const dailyYield110W_190deg_75tilt = [0.16, 0.26, 0.34, 0.35, 0.36, 0.37, 0.38, 0.38, 0.35, 0.28, 0.18, 0.14];
@@ -146,33 +251,62 @@
             daily: { labels: months, datasets: [ { type: 'bar', label: '110W @ 190°', data: dailyYield110W_190deg_75tilt, backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { type: 'line', label: '110W Avg.', data: Array(12).fill(avgDailyYield110W), borderColor: 'rgba(147, 197, 253, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] }, { type: 'bar', label: '220W @ 190°', data: dailyYield220W_190deg_75tilt, backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { type: 'line', label: '220W Avg.', data: Array(12).fill(avgDailyYield220W), borderColor: 'rgba(59, 130, 246, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] }, { type: 'bar', label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt, backgroundColor: 'rgba(30, 64, 175, 0.8)' }, { type: 'line', label: 'Split Avg.', data: Array(12).fill(avgDailyYieldSplit), borderColor: 'rgba(30, 64, 175, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] } ] }
         };
         
+        // --- TILT DATA (kWh/month for 220W system) ---
+        const monthlyYield_90deg = [8.0, 12.1, 16.5, 16.0, 15.5, 15.0, 15.8, 17.1, 16.9, 14.0, 9.1, 7.5];
+        const monthlyYield_85deg = [7.9, 12.3, 17.2, 17.1, 16.8, 16.3, 17.1, 18.1, 17.7, 14.5, 9.0, 7.3];
+        const monthlyYield_80deg = [7.8, 12.5, 18.0, 18.2, 18.0, 17.5, 18.3, 19.0, 18.5, 15.0, 9.0, 7.2];
+        const monthlyYield_70deg = [7.0, 12.0, 18.8, 19.8, 20.0, 19.5, 20.2, 20.8, 20.0, 15.8, 8.5, 6.8];
         const monthlyYield_65deg = [6.5, 11.5, 19.0, 20.5, 20.8, 20.5, 21.0, 21.5, 20.5, 16.0, 8.0, 6.2];
         
-        const hourlyProd_65deg_summer = [0,0,0,0,0, 20, 58, 110, 160, 190, 212, 224, 230, 224, 204, 150, 100, 50, 16, 0,0,0,0,0];
+        const ideal_65_85_yield = [monthlyYield_85deg[0], monthlyYield_85deg[1], monthlyYield_65deg[2], monthlyYield_65deg[3], monthlyYield_65deg[4], monthlyYield_65deg[5], monthlyYield_65deg[6], monthlyYield_65deg[7], monthlyYield_65deg[8], monthlyYield_65deg[9], monthlyYield_85deg[10], monthlyYield_85deg[11]];
+        const optimized_70_85_yield = [monthlyYield_85deg[0], monthlyYield_85deg[1], monthlyYield_70deg[2], monthlyYield_70deg[3], monthlyYield_70deg[4], monthlyYield_70deg[5], monthlyYield_70deg[6], monthlyYield_70deg[7], monthlyYield_70deg[8], monthlyYield_70deg[9], monthlyYield_85deg[10], monthlyYield_85deg[11]];
+        
+        const hourlyProd_110W_june = [0,0,0,0,0, 10, 29, 55, 80, 95, 106, 112, 115, 112, 102, 75, 50, 25, 8, 0,0,0,0,0];
+        const hourlyProd_110W_oct =  [0,0,0,0,0,0, 5, 20, 45, 60, 65, 68, 65, 55, 35, 15, 2, 0, 0, 0,0,0,0,0];
         const hourlyProd_65deg_winter_cloudy = [0,0,0,0,0,0,0,0,5,10,15,20,18,12,8,2,0,0,0,0,0,0,0,0];
-        const annualYield65deg = 202; // kWh
-        const avgDailyEnergy65deg = annualYield65deg / 365 * 1000; // Wh
+        const annualYield_ideal = ideal_65_85_yield.reduce((a,b)=>a+b,0);
+        const avgDailyEnergy_ideal = annualYield_ideal / 365 * 1000;
         const avgHourlyShape = [0,0,0,0,0,0.02,0.05,0.08,0.11,0.13,0.14,0.15,0.14,0.1,0.05,0.02,0,0,0,0,0,0,0,0];
-        const hourlyProd_65deg_avg = avgHourlyShape.map(p => p * avgDailyEnergy65deg);
+        const hourlyProd_avg = avgHourlyShape.map(p => p * avgDailyEnergy_ideal);
 
         window.onload = function() {
             const defaultOptions = { responsive: true, maintainAspectRatio: false };
             const timeScale = { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } } };
 
+            const ctxIdeal = document.getElementById('idealScenarioChart').getContext('2d');
+            new Chart(ctxIdeal, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        { label: 'Static (80°)', data: monthlyYield_80deg, backgroundColor: 'rgba(107, 114, 128, 0.7)' },
+                        { label: 'Optimized (70°/85°)', data: optimized_70_85_yield, backgroundColor: 'rgba(59, 130, 246, 0.7)' },
+                        { label: 'Ideal (65°/85°)', data: ideal_65_85_yield, backgroundColor: 'rgba(34, 197, 94, 0.7)' }
+                    ]
+                },
+                options: { ...defaultOptions, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Energy (kWh)' }}}}
+            });
+            document.getElementById('staticTotalYield').textContent = `${monthlyYield_80deg.reduce((a,b)=>a+b,0).toFixed(0)} kWh/year`;
+            document.getElementById('optimizedTotalYield').textContent = `${optimized_70_85_yield.reduce((a,b)=>a+b,0).toFixed(0)} kWh/year`;
+            document.getElementById('idealTotalYield').textContent = `${annualYield_ideal.toFixed(0)} kWh/year`;
+            document.getElementById('annualSavings').textContent = `~${(annualYield_ideal * 0.26).toFixed(0)} CHF`;
+            document.getElementById('paybackPeriod').textContent = `~${(588 / (annualYield_ideal * 0.26)).toFixed(1)} Years`;
+
+
             const ctxYield = document.getElementById('solarYieldChart').getContext('2d');
             const solarYieldChart = new Chart(ctxYield, { type: 'bar', data: chartData.monthly, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Estimated Monthly Energy Yield (kWh)', font: { size: 16 } }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y} kWh` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
             
             const ctxTiltMonthly = document.getElementById('tiltMonthlyChart').getContext('2d');
-            new Chart(ctxTiltMonthly, { type: 'bar', data: { labels: months, datasets: [ { label: '90°', data: [8.0, 12.1, 16.5, 16.0, 15.5, 15.0, 15.8, 17.1, 16.9, 14.0, 9.1, 7.5], backgroundColor: 'rgba(191, 219, 254, 0.8)' }, { label: '80°', data: [7.8, 12.5, 18.0, 18.2, 18.0, 17.5, 18.3, 19.0, 18.5, 15.0, 9.0, 7.2], backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '75°', data: [7.4, 12.3, 18.5, 19.1, 19.0, 18.5, 19.3, 20.0, 19.5, 15.5, 8.8, 7.0], backgroundColor: 'rgba(96, 165, 250, 0.8)' }, { label: '70°', data: [7.0, 12.0, 18.8, 19.8, 20.0, 19.5, 20.2, 20.8, 20.0, 15.8, 8.5, 6.8], backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '65°', data: monthlyYield_65deg, backgroundColor: 'rgba(37, 99, 235, 0.8)' } ] }, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Monthly Yield by Tilt Angle (kWh)', font: { size: 16 } }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
+            new Chart(ctxTiltMonthly, { type: 'bar', data: { labels: months, datasets: [ { label: '90°', data: monthlyYield_90deg, backgroundColor: 'rgba(191, 219, 254, 0.8)' }, { label: '80°', data: monthlyYield_80deg, backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '75°', data: [7.4, 12.3, 18.5, 19.1, 19.0, 18.5, 19.3, 20.0, 19.5, 15.5, 8.8, 7.0], backgroundColor: 'rgba(96, 165, 250, 0.8)' }, { label: '70°', data: monthlyYield_70deg, backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '65°', data: monthlyYield_65deg, backgroundColor: 'rgba(37, 99, 235, 0.8)' } ] }, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Monthly Yield by Tilt Angle (kWh)', font: { size: 16 } }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
             
             const ctxAutarky = document.getElementById('autarkyChart').getContext('2d');
             const userMonthlyConsumption = 150;
-            const autarkyData = monthlyYield_65deg.map(yieldKwh => (yieldKwh / userMonthlyConsumption * 100).toFixed(1));
+            const autarkyData = ideal_65_85_yield.map(yieldKwh => (yieldKwh / userMonthlyConsumption * 100).toFixed(1));
             const avgAutarky = autarkyData.reduce((a, b) => a + parseFloat(b), 0) / autarkyData.length;
             new Chart(ctxAutarky, { type: 'bar', data: { labels: months, datasets: [{ label: 'Autarky %', data: autarkyData, backgroundColor: 'rgba(22, 163, 74, 0.7)' }, { type: 'line', label: 'Yearly Average', data: Array(12).fill(avgAutarky), borderColor: 'rgba(22, 163, 74, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] }] }, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Potential Self-Sufficiency', font: { size: 16 }}, tooltip: { callbacks: { label: (c) => `${c.parsed.y}%` }}}, scales: { y: { beginAtZero: true, max: 20, title: { display: true, text: '% of 150 kWh Consumption' }}} }});
 
             const ctxSeasonal = document.getElementById('seasonalExtremesChart').getContext('2d');
-            new Chart(ctxSeasonal, { type: 'line', data: { labels: productionTimeLabels48h.slice(0,24), datasets: [ { label: 'Sunny Summer Day (June)', data: hourlyProd_65deg_summer, borderColor: 'rgb(250, 176, 5)', backgroundColor: 'rgba(250, 176, 5, 0.2)', fill: true, tension: 0.4 }, { label: 'Yearly Average Day', data: hourlyProd_65deg_avg, borderColor: 'rgb(34, 197, 94)', backgroundColor: 'rgba(34, 197, 94, 0.2)', fill: true, tension: 0.4 }, { label: 'Cloudy Winter Day (Dec)', data: hourlyProd_65deg_winter_cloudy, borderColor: 'rgb(107, 114, 128)', backgroundColor: 'rgba(107, 114, 128, 0.2)', fill: true, tension: 0.4 } ] }, options: { ...defaultOptions, scales: { ...timeScale, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
+            new Chart(ctxSeasonal, { type: 'line', data: { labels: productionTimeLabels24h, datasets: [ { label: 'Sunny Summer Day (June)', data: hourlyProd_110W_june.map(p=>p*2), borderColor: 'rgb(250, 176, 5)', backgroundColor: 'rgba(250, 176, 5, 0.2)', fill: true, tension: 0.4 }, { label: 'Yearly Average Day', data: hourlyProd_avg, borderColor: 'rgb(34, 197, 94)', backgroundColor: 'rgba(34, 197, 94, 0.2)', fill: true, tension: 0.4 }, { label: 'Cloudy Winter Day (Dec)', data: hourlyProd_65deg_winter_cloudy, borderColor: 'rgb(107, 114, 128)', backgroundColor: 'rgba(107, 114, 128, 0.2)', fill: true, tension: 0.4 } ] }, options: { ...defaultOptions, scales: { ...timeScale, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
             
             const ctxCharging = document.getElementById('chargingCurveChart').getContext('2d');
             const withLoadCheck = document.getElementById('withLoadCheck');
@@ -180,7 +314,7 @@
                 let batteryEnergyWh = batteryCapacityWh * 0.20;
                 const data = [];
                 const load = withLoad ? 50 : 0;
-                const hourlyProdTwoDays = [...hourlyProd_65deg_summer, ...hourlyProd_65deg_summer];
+                const hourlyProdTwoDays = [...hourlyProd_110W_june.map(p=>p*2), ...hourlyProd_110W_june.map(p=>p*2)];
                 for (let hour = 0; hour < 48; hour++) { 
                     const netGeneration = hourlyProdTwoDays[hour] - load;
                     batteryEnergyWh += netGeneration; 
@@ -202,7 +336,7 @@
 
             const viewMonthlyBtn = document.getElementById('viewMonthlyBtn');
             const viewDailyBtn = document.getElementById('viewDailyBtn');
-            function updateYieldChart(view) { solarYieldChart.data = view === 'monthly' ? chartData.monthly : chartData.daily; solarYieldChart.options.plugins.title.text = view === 'monthly' ? 'Estimated Monthly Energy Yield (kWh)' : 'Estimated Average Daily Yield (kWh)'; viewMonthlyBtn.classList.toggle('bg-blue-600', view === 'monthly'); viewMonthlyBtn.classList.toggle('text-white', view === 'monthly'); viewDailyBtn.classList.toggle('bg-blue-600', view === 'daily'); viewDailyBtn.classList.toggle('text-white', view === 'daily'); viewMonthlyBtn.classList.toggle('bg-white', view !== 'monthly'); viewDailyBtn.classList.toggle('bg-white', view !== 'daily'); solarYieldChart.update(); }
+            function updateYieldChart(view) { solarYieldChart.data = view === 'monthly' ? chartData.monthly : chartData.daily; solarYieldChart.options.plugins.title.text = view === 'monthly' ? 'Estimated Monthly Energy Yield (kWh)' : 'Estimated Average Daily Yield (kWh)'; viewMonthlyBtn.classList.toggle('btn-active', view === 'monthly'); viewMonthlyBtn.classList.toggle('btn-inactive', view !== 'monthly'); viewDailyBtn.classList.toggle('btn-active', view === 'daily'); viewDailyBtn.classList.toggle('btn-inactive', view !== 'daily'); solarYieldChart.update(); }
             viewMonthlyBtn.addEventListener('click', () => updateYieldChart('monthly'));
             viewDailyBtn.addEventListener('click', () => updateYieldChart('daily'));
 
@@ -221,6 +355,103 @@
                 }
             }
             calculateBtn.addEventListener('click', updateAutonomy);
+
+            // --- INTERACTIVE WIRING ---
+            const panelInput = document.getElementById('panelInput');
+            const wiringWarningEl = document.getElementById('wiringWarning');
+            const ignoreLimitsCheck = document.getElementById('ignoreLimitsCheck');
+            const wiringJuneBtn = document.getElementById('wiringJuneBtn');
+            const wiringOctBtn = document.getElementById('wiringOctBtn');
+
+            const ctxSeriesParallel = document.getElementById('seriesParallelChart').getContext('2d');
+            const seriesParallelChart = new Chart(ctxSeriesParallel, { type: 'line', data: {}, options: { ...defaultOptions, scales: { ...timeScale, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
+            
+            const ctxSeriesParallelGain = document.getElementById('seriesParallelGainChart').getContext('2d');
+            const seriesParallelGainChart = new Chart(ctxSeriesParallelGain, { type: 'bar', data: {}, options: { ...defaultOptions, indexAxis: 'y', plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.parsed.x} kWh` }} }, scales: { x: { beginAtZero: false, title: { display: true, text: 'Additional Energy (kWh)'}}}}});
+
+            let wiringMonth = 'june';
+
+            function updateWiringCharts() {
+                const numPanels = parseInt(panelInput.value) || 0;
+                if (numPanels < 1) return;
+
+                const hourlyProdData = wiringMonth === 'june' ? hourlyProd_110W_june : hourlyProd_110W_oct;
+
+                const CONTROLLER_MAX_CURRENT = 15;
+                const CONTROLLER_MAX_VOLTAGE = 75;
+                const PANEL_VMP = 17.6;
+                const PANEL_VOC = 20.5;
+                const PANEL_IMP = 5.96;
+
+                const seriesVoltage = numPanels * PANEL_VOC;
+                const parallelCurrent = numPanels * PANEL_IMP;
+
+                let warning = '';
+                if (seriesVoltage > CONTROLLER_MAX_VOLTAGE) {
+                    warning += `Series voltage (${seriesVoltage.toFixed(1)}V) exceeds controller max (75V). `;
+                }
+                if (parallelCurrent > CONTROLLER_MAX_CURRENT && !ignoreLimitsCheck.checked) {
+                    warning += `Parallel current (${parallelCurrent.toFixed(1)}A) will be clipped by controller's 15A limit.`;
+                }
+                wiringWarningEl.textContent = warning;
+
+                const theoreticalProd = hourlyProdData.map(p => p * numPanels);
+                const seriesProd = theoreticalProd; 
+                let parallelProd;
+
+                if (ignoreLimitsCheck.checked) {
+                    parallelProd = theoreticalProd.map(p => p * 0.96); 
+                } else {
+                    const parallelMaxPower = CONTROLLER_MAX_CURRENT * PANEL_VMP;
+                    parallelProd = theoreticalProd.map(p => Math.min(p, parallelMaxPower) * 0.96);
+                }
+
+                seriesParallelChart.data = {
+                    labels: productionTimeLabels24h,
+                    datasets: [
+                        { label: 'Series Wiring', data: seriesProd, borderColor: 'rgb(37, 99, 235)', backgroundColor: 'rgba(37, 99, 235, 0.2)', fill: true, tension: 0.4 },
+                        { label: 'Parallel Wiring', data: parallelProd, borderColor: 'rgb(217, 70, 239)', backgroundColor: 'rgba(217, 70, 239, 0.2)', fill: true, tension: 0.4 }
+                    ]
+                };
+                seriesParallelChart.update();
+
+                const seriesTotalWh = seriesProd.reduce((a,b) => a+b, 0);
+                const parallelTotalWh = parallelProd.reduce((a,b) => a+b, 0);
+                const gainWh = seriesTotalWh - parallelTotalWh;
+                const gainData = {
+                    daily: gainWh / 1000,
+                    monthly: (gainWh / 1000) * 30.4,
+                    yearly: (gainWh / 1000) * 365
+                };
+
+                seriesParallelGainChart.data = {
+                    labels: ['Per Day', 'Per Month', 'Per Year'],
+                    datasets: [{
+                        label: 'Energy Gained (kWh)',
+                        data: [gainData.daily.toFixed(3), gainData.monthly.toFixed(2), gainData.yearly.toFixed(2)],
+                        backgroundColor: 'rgba(37, 99, 235, 0.7)'
+                    }]
+                };
+                seriesParallelGainChart.update();
+            }
+            
+            panelInput.addEventListener('input', updateWiringCharts);
+            ignoreLimitsCheck.addEventListener('change', updateWiringCharts);
+            wiringJuneBtn.addEventListener('click', () => {
+                wiringMonth = 'june';
+                wiringJuneBtn.classList.replace('btn-inactive', 'btn-active');
+                wiringOctBtn.classList.replace('btn-active', 'btn-inactive');
+                updateWiringCharts();
+            });
+            wiringOctBtn.addEventListener('click', () => {
+                wiringMonth = 'october';
+                wiringOctBtn.classList.replace('btn-inactive', 'btn-active');
+                wiringJuneBtn.classList.replace('btn-active', 'btn-inactive');
+                updateWiringCharts();
+            });
+            
+            // Initial call
+            updateWiringCharts();
         }
     </script>
 </body>
