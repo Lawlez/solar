@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar Yield Comparison for Zurich</title>
+    <title>Solar Yield Comparison</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
@@ -35,7 +35,7 @@
         
         <div id="yield-comparison" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Balcony Solar Yield Comparison</h1>
-            <p class="text-gray-600 mb-4">Comparing different system setups in Zurich.</p>
+            <p class="text-gray-600 mb-4">Comparing different system setups in Zurich. Dashed line represents annual average.</p>
             <div class="flex justify-center items-center space-x-4 mb-6 bg-gray-100 p-2 rounded-lg max-w-xs mx-auto">
                 <label class="text-sm font-medium text-gray-700">View:</label>
                 <div class="flex space-x-2">
@@ -86,15 +86,15 @@
         
         <div id="seasonal-extremes" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Seasonal Extremes</h2>
-            <p class="text-gray-600 mb-4">Comparing hourly output for the 220W (65° tilt) system on a perfect summer day vs. a cloudy winter day.</p>
+            <p class="text-gray-600 mb-4">Comparing hourly output for the 220W (65° tilt) system on a perfect summer day, a cloudy winter day, and the yearly average.</p>
             <div class="small-chart-container">
                 <canvas id="seasonalExtremesChart"></canvas>
             </div>
         </div>
 
         <div id="charging-simulation" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Summer Day Charging Simulation</h2>
-            <p class="text-gray-600 mb-2">Comparing charge curves for a single vs. double battery setup, starting at 20% on a clear June day (220W, 65° tilt system).</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">48-Hour Charging Simulation</h2>
+            <p class="text-gray-600 mb-2">Comparing charge curves over two sunny days, starting at 20% (220W, 65° tilt system).</p>
             <div class="flex items-center justify-center mb-4">
                 <input type="checkbox" id="withLoadCheck" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                 <label for="withLoadCheck" class="ml-2 block text-sm text-gray-900">Simulate with constant 50W load</label>
@@ -130,58 +130,59 @@
         // --- DATA ---
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        const productionTimeLabels = Array.from({length: 24}, (_, i) => new Date(2025, 5, 14, i, 0));
+        const productionTimeLabels48h = Array.from({length: 48}, (_, i) => new Date(2025, 5, 14, i, 0));
         
-        // --- Orientation Data (75-degree tilt) ---
         const dailyYield110W_190deg_75tilt = [0.16, 0.26, 0.34, 0.35, 0.36, 0.37, 0.38, 0.38, 0.35, 0.28, 0.18, 0.14];
         const dailyYield220W_190deg_75tilt = dailyYield110W_190deg_75tilt.map(d => d * 2);
         const dailyYield110W_100deg_75tilt = [0.14, 0.23, 0.32, 0.35, 0.36, 0.37, 0.38, 0.36, 0.32, 0.25, 0.15, 0.12];
         const dailyYield220W_Split_75tilt = dailyYield110W_190deg_75tilt.map((d, i) => d + dailyYield110W_100deg_75tilt[i]);
 
+        const avgDailyYield110W = dailyYield110W_190deg_75tilt.reduce((a,b)=>a+b,0) / 12;
+        const avgDailyYield220W = dailyYield220W_190deg_75tilt.reduce((a,b)=>a+b,0) / 12;
+        const avgDailyYieldSplit = dailyYield220W_Split_75tilt.reduce((a,b)=>a+b,0) / 12;
+
         const chartData = {
-            monthly: { labels: months, datasets: [ { label: '110W @ 190°', data: dailyYield110W_190deg_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '220W @ 190°', data: dailyYield220W_190deg_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] },
-            daily: { labels: months, datasets: [ { label: '110W @ 190°', data: dailyYield110W_190deg_75tilt, backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '220W @ 190°', data: dailyYield220W_190deg_75tilt, backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt, backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] }
+            monthly: { labels: months, datasets: [ { type: 'bar', label: '110W @ 190°', data: dailyYield110W_190deg_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { type: 'bar', label: '220W @ 190°', data: dailyYield220W_190deg_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { type: 'bar', label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] },
+            daily: { labels: months, datasets: [ { type: 'bar', label: '110W @ 190°', data: dailyYield110W_190deg_75tilt, backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { type: 'line', label: '110W Avg.', data: Array(12).fill(avgDailyYield110W), borderColor: 'rgba(147, 197, 253, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] }, { type: 'bar', label: '220W @ 190°', data: dailyYield220W_190deg_75tilt, backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { type: 'line', label: '220W Avg.', data: Array(12).fill(avgDailyYield220W), borderColor: 'rgba(59, 130, 246, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] }, { type: 'bar', label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt, backgroundColor: 'rgba(30, 64, 175, 0.8)' }, { type: 'line', label: 'Split Avg.', data: Array(12).fill(avgDailyYieldSplit), borderColor: 'rgba(30, 64, 175, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] } ] }
         };
         
-        // --- Tilt Monthly Data (kWh/month) for 220W South ---
         const monthlyYield_65deg = [6.5, 11.5, 19.0, 20.5, 20.8, 20.5, 21.0, 21.5, 20.5, 16.0, 8.0, 6.2];
         
-        // --- Hourly Production Data (Watts) ---
         const hourlyProd_65deg_summer = [0,0,0,0,0, 20, 58, 110, 160, 190, 212, 224, 230, 224, 204, 150, 100, 50, 16, 0,0,0,0,0];
         const hourlyProd_65deg_winter_cloudy = [0,0,0,0,0,0,0,0,5,10,15,20,18,12,8,2,0,0,0,0,0,0,0,0];
+        const annualYield65deg = 202; // kWh
+        const avgDailyEnergy65deg = annualYield65deg / 365 * 1000; // Wh
+        const avgHourlyShape = [0,0,0,0,0,0.02,0.05,0.08,0.11,0.13,0.14,0.15,0.14,0.1,0.05,0.02,0,0,0,0,0,0,0,0];
+        const hourlyProd_65deg_avg = avgHourlyShape.map(p => p * avgDailyEnergy65deg);
 
         window.onload = function() {
-            // --- CHARTS ---
             const defaultOptions = { responsive: true, maintainAspectRatio: false };
             const timeScale = { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } } };
 
-            // Main Yield Chart
             const ctxYield = document.getElementById('solarYieldChart').getContext('2d');
             const solarYieldChart = new Chart(ctxYield, { type: 'bar', data: chartData.monthly, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Estimated Monthly Energy Yield (kWh)', font: { size: 16 } }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y} kWh` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
             
-            // Tilt Monthly Chart
             const ctxTiltMonthly = document.getElementById('tiltMonthlyChart').getContext('2d');
             new Chart(ctxTiltMonthly, { type: 'bar', data: { labels: months, datasets: [ { label: '90°', data: [8.0, 12.1, 16.5, 16.0, 15.5, 15.0, 15.8, 17.1, 16.9, 14.0, 9.1, 7.5], backgroundColor: 'rgba(191, 219, 254, 0.8)' }, { label: '80°', data: [7.8, 12.5, 18.0, 18.2, 18.0, 17.5, 18.3, 19.0, 18.5, 15.0, 9.0, 7.2], backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '75°', data: [7.4, 12.3, 18.5, 19.1, 19.0, 18.5, 19.3, 20.0, 19.5, 15.5, 8.8, 7.0], backgroundColor: 'rgba(96, 165, 250, 0.8)' }, { label: '70°', data: [7.0, 12.0, 18.8, 19.8, 20.0, 19.5, 20.2, 20.8, 20.0, 15.8, 8.5, 6.8], backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '65°', data: monthlyYield_65deg, backgroundColor: 'rgba(37, 99, 235, 0.8)' } ] }, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Monthly Yield by Tilt Angle (kWh)', font: { size: 16 } }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
             
-            // Autarky Chart
             const ctxAutarky = document.getElementById('autarkyChart').getContext('2d');
-            const userMonthlyConsumption = 150; // kWh
+            const userMonthlyConsumption = 150;
             const autarkyData = monthlyYield_65deg.map(yieldKwh => (yieldKwh / userMonthlyConsumption * 100).toFixed(1));
-            new Chart(ctxAutarky, { type: 'bar', data: { labels: months, datasets: [{ label: 'Autarky %', data: autarkyData, backgroundColor: 'rgba(22, 163, 74, 0.7)' }] }, options: { ...defaultOptions, plugins: { legend: { display: false }, title: { display: true, text: 'Potential Self-Sufficiency', font: { size: 16 }}, tooltip: { callbacks: { label: (c) => `${c.parsed.y}%` }}}, scales: { y: { beginAtZero: true, max: 20, title: { display: true, text: '% of 150 kWh Consumption' }}} }});
+            const avgAutarky = autarkyData.reduce((a, b) => a + parseFloat(b), 0) / autarkyData.length;
+            new Chart(ctxAutarky, { type: 'bar', data: { labels: months, datasets: [{ label: 'Autarky %', data: autarkyData, backgroundColor: 'rgba(22, 163, 74, 0.7)' }, { type: 'line', label: 'Yearly Average', data: Array(12).fill(avgAutarky), borderColor: 'rgba(22, 163, 74, 1)', borderWidth: 2, pointRadius: 0, borderDash: [5, 5] }] }, options: { ...defaultOptions, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Potential Self-Sufficiency', font: { size: 16 }}, tooltip: { callbacks: { label: (c) => `${c.parsed.y}%` }}}, scales: { y: { beginAtZero: true, max: 20, title: { display: true, text: '% of 150 kWh Consumption' }}} }});
 
-            // Seasonal Extremes Chart
             const ctxSeasonal = document.getElementById('seasonalExtremesChart').getContext('2d');
-            new Chart(ctxSeasonal, { type: 'line', data: { labels: productionTimeLabels, datasets: [ { label: 'Sunny Summer Day (June)', data: hourlyProd_65deg_summer, borderColor: 'rgb(250, 176, 5)', backgroundColor: 'rgba(250, 176, 5, 0.2)', fill: true, tension: 0.4 }, { label: 'Cloudy Winter Day (Dec)', data: hourlyProd_65deg_winter_cloudy, borderColor: 'rgb(107, 114, 128)', backgroundColor: 'rgba(107, 114, 128, 0.2)', fill: true, tension: 0.4 } ] }, options: { ...defaultOptions, scales: { ...timeScale, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
+            new Chart(ctxSeasonal, { type: 'line', data: { labels: productionTimeLabels48h.slice(0,24), datasets: [ { label: 'Sunny Summer Day (June)', data: hourlyProd_65deg_summer, borderColor: 'rgb(250, 176, 5)', backgroundColor: 'rgba(250, 176, 5, 0.2)', fill: true, tension: 0.4 }, { label: 'Yearly Average Day', data: hourlyProd_65deg_avg, borderColor: 'rgb(34, 197, 94)', backgroundColor: 'rgba(34, 197, 94, 0.2)', fill: true, tension: 0.4 }, { label: 'Cloudy Winter Day (Dec)', data: hourlyProd_65deg_winter_cloudy, borderColor: 'rgb(107, 114, 128)', backgroundColor: 'rgba(107, 114, 128, 0.2)', fill: true, tension: 0.4 } ] }, options: { ...defaultOptions, scales: { ...timeScale, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
             
-            // Charging Curve Chart
             const ctxCharging = document.getElementById('chargingCurveChart').getContext('2d');
             const withLoadCheck = document.getElementById('withLoadCheck');
             const getChargingData = (batteryCapacityWh, withLoad) => {
                 let batteryEnergyWh = batteryCapacityWh * 0.20;
                 const data = [];
                 const load = withLoad ? 50 : 0;
-                for (let hour = 0; hour < 24; hour++) { 
-                    const netGeneration = hourlyProd_65deg_summer[hour] - load;
+                const hourlyProdTwoDays = [...hourlyProd_65deg_summer, ...hourlyProd_65deg_summer];
+                for (let hour = 0; hour < 48; hour++) { 
+                    const netGeneration = hourlyProdTwoDays[hour] - load;
                     batteryEnergyWh += netGeneration; 
                     if (batteryEnergyWh > batteryCapacityWh) batteryEnergyWh = batteryCapacityWh; 
                     if (batteryEnergyWh < 0) batteryEnergyWh = 0;
@@ -190,7 +191,7 @@
                 }
                 return data;
             }
-            const chargingChart = new Chart(ctxCharging, { type: 'line', data: { datasets: [ { label: '1x Battery (640Wh)', data: getChargingData(640, false), borderColor: 'rgb(59, 130, 246)', fill: true, tension: 0.4, backgroundColor: 'rgba(59, 130, 246, 0.1)' }, { label: '2x Batteries (1280Wh)', data: getChargingData(1280, false), borderColor: 'rgb(30, 64, 175)', fill: true, tension: 0.4, backgroundColor: 'rgba(30, 64, 175, 0.1)' } ] }, options: { ...defaultOptions, scales: { ...timeScale, y: { beginAtZero: true, max: 100, title: { display: true, text: 'State of Charge (%)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
+            const chargingChart = new Chart(ctxCharging, { type: 'line', data: { datasets: [ { label: '1x Battery (640Wh)', data: getChargingData(640, false), borderColor: 'rgb(59, 130, 246)', fill: true, tension: 0.4, backgroundColor: 'rgba(59, 130, 246, 0.1)' }, { label: '2x Batteries (1280Wh)', data: getChargingData(1280, false), borderColor: 'rgb(30, 64, 175)', fill: true, tension: 0.4, backgroundColor: 'rgba(30, 64, 175, 0.1)' } ] }, options: { ...defaultOptions, scales: { x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'MMM dd' } }, title: { display: true, text: 'Date' } }, y: { beginAtZero: true, max: 100, title: { display: true, text: 'State of Charge (%)' }}}, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false }}}});
             
             withLoadCheck.addEventListener('change', (e) => {
                 const withLoad = e.target.checked;
@@ -199,7 +200,6 @@
                 chargingChart.update();
             });
 
-            // --- INTERACTIVITY ---
             const viewMonthlyBtn = document.getElementById('viewMonthlyBtn');
             const viewDailyBtn = document.getElementById('viewDailyBtn');
             function updateYieldChart(view) { solarYieldChart.data = view === 'monthly' ? chartData.monthly : chartData.daily; solarYieldChart.options.plugins.title.text = view === 'monthly' ? 'Estimated Monthly Energy Yield (kWh)' : 'Estimated Average Daily Yield (kWh)'; viewMonthlyBtn.classList.toggle('bg-blue-600', view === 'monthly'); viewMonthlyBtn.classList.toggle('text-white', view === 'monthly'); viewDailyBtn.classList.toggle('bg-blue-600', view === 'daily'); viewDailyBtn.classList.toggle('text-white', view === 'daily'); viewMonthlyBtn.classList.toggle('bg-white', view !== 'monthly'); viewDailyBtn.classList.toggle('bg-white', view !== 'daily'); solarYieldChart.update(); }
