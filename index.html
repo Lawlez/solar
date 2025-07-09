@@ -143,14 +143,14 @@
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Est. Annual Savings</h3>
-                    <p class="text-3xl font-bold text-blue-600" id="annualSavings">~51 CHF</p>
+                    <p class="text-3xl font-bold text-blue-600" id="annualSavings"></p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Simple Payback Period</h3>
-                    <p class="text-3xl font-bold text-blue-600" id="paybackPeriod">~11.5 Years</p>
+                    <p class="text-3xl font-bold text-blue-600" id="paybackPeriod"></p>
                 </div>
             </div>
-            <p class="text-xs text-gray-500 mt-4">Calculations based on the Ideal (65°/85°) system (196 kWh/year) and an electricity price of 0.31 CHF/kWh.</p>
+            <p class="text-xs text-gray-500 mt-4">Calculations based on the Ideal (65°/85°) system and an electricity price of 0.26 CHF/kWh.</p>
         </div>
 
         <div id="autarky-analysis" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
@@ -226,6 +226,23 @@
             <div class="small-chart-container">
                 <canvas id="seriesParallelGainChart"></canvas>
             </div>
+        </div>
+        
+        <div id="efficiency-comparison" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Panel Efficiency Comparison</h2>
+            <p class="text-gray-600 mb-4">Comparing your high-efficiency panels against other common panel types under ideal tilt conditions.</p>
+            <div class="small-chart-container">
+                <canvas id="efficiencyChart"></canvas>
+            </div>
+        </div>
+
+        <div id="total-gain" class="bg-white p-6 rounded-2xl shadow-lg">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Total System Gain Summary</h2>
+            <p class="text-gray-600 mb-4">This chart shows the cumulative benefit of every optimization: higher efficiency panels, ideal seasonal tilt, and a more efficient 24V system.</p>
+            <div class="small-chart-container">
+                <canvas id="totalGainChart"></canvas>
+            </div>
+            <div id="totalGainText" class="text-center mt-4 text-lg font-semibold text-green-700"></div>
         </div>
 
     </div>
@@ -450,6 +467,45 @@
                 updateWiringCharts();
             });
             
+            // --- Final Comparison Charts ---
+            const efficiency_23_3_yield = ideal_65_85_yield;
+            const efficiency_ecoflow_22_8 = ideal_65_85_yield.map(y => y * (22.8 / 23.3));
+            const efficiency_neotools_22 = ideal_65_85_yield.map(y => y * (22.0 / 23.3));
+            const efficiency_2015_16 = ideal_65_85_yield.map(y => y * (16.0 / 23.3));
+            const ctxEfficiency = document.getElementById('efficiencyChart').getContext('2d');
+            new Chart(ctxEfficiency, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        { label: '2015 Panel (16%)', data: efficiency_2015_16, backgroundColor: 'rgba(239, 68, 68, 0.7)'},
+                        { label: 'NeoTools (22%)', data: efficiency_neotools_22, backgroundColor: 'rgba(107, 114, 128, 0.7)'},
+                        { label: 'EcoFlow (22.8%)', data: efficiency_ecoflow_22_8, backgroundColor: 'rgba(59, 130, 246, 0.7)'},
+                        { label: 'Your Panel (23.3%)', data: efficiency_23_3_yield, backgroundColor: 'rgba(34, 197, 94, 0.7)'}
+                    ]
+                },
+                options: { ...defaultOptions, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Energy (kWh)' }}}}
+            });
+
+            const baseCaseYield = monthlyYield_90deg.reduce((a,b)=>a+b,0) * (19 / 23.3);
+            const unoptimizedYield = monthlyYield_90deg.reduce((a,b)=>a+b,0);
+            const optimizedYield = ideal_65_85_yield.reduce((a,b)=>a+b,0) * 1.02; // 2% gain for 24V
+            const ctxTotalGain = document.getElementById('totalGainChart').getContext('2d');
+            new Chart(ctxTotalGain, {
+                type: 'bar',
+                data: {
+                    labels: ['Annual Yield'],
+                    datasets: [
+                        { label: 'Base Case (19% eff, 90° tilt, 12V)', data: [baseCaseYield.toFixed(0)], backgroundColor: 'rgba(239, 68, 68, 0.7)' },
+                        { label: 'Unoptimized (Your Panels, 90° tilt, 12V)', data: [unoptimizedYield.toFixed(0)], backgroundColor: 'rgba(251, 146, 60, 0.7)'},
+                        { label: 'Optimized (Your Panels, Ideal Tilt, 24V)', data: [optimizedYield.toFixed(0)], backgroundColor: 'rgba(34, 197, 94, 0.7)' }
+                    ]
+                },
+                options: { ...defaultOptions, plugins: { legend: { position: 'top' }}, scales: { y: { beginAtZero: true, title: { display: true, text: 'Total Energy (kWh/year)'}}}}
+            });
+            document.getElementById('totalGainText').textContent = `Total gain from all optimizations: +${((optimizedYield / baseCaseYield - 1) * 100).toFixed(1)}%`;
+
+
             // Initial call
             updateWiringCharts();
         }
