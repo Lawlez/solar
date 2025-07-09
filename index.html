@@ -400,10 +400,10 @@
                 let parallelProd;
 
                 if (ignoreLimitsCheck.checked) {
-                    parallelProd = theoreticalProd.map(p => p * 0.96.5); 
+                    parallelProd = theoreticalProd.map(p => p * 0.965); 
                 } else {
                     const parallelMaxPower = CONTROLLER_MAX_CURRENT * PANEL_VMP;
-                    parallelProd = theoreticalProd.map(p => Math.min(p, parallelMaxPower) * 0.96.5);
+                    parallelProd = theoreticalProd.map(p => Math.min(p, parallelMaxPower) * 0.965);
                 }
 
                 seriesParallelChart.data = {
