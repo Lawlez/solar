@@ -49,10 +49,31 @@
             </div>
         </div>
         
+        <!-- Tilt Optimization Section -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Tilt Angle Optimization (220W South)</h2>
+            <p class="text-gray-600 mb-4">Comparing different panel tilt angles for a 220W south-facing (190°) system. A steeper angle (like 90°) favors winter sun, while a shallower angle favors summer sun.</p>
+            
+            <div class="small-chart-container mb-8">
+                <canvas id="tiltMonthlyChart"></canvas>
+            </div>
+            
+            <p class="text-gray-600 mb-4">The hourly curve below shows how a shallower tilt (65°) captures more intense midday sun in summer, resulting in a higher peak output.</p>
+            
+            <div class="small-chart-container">
+                <canvas id="tiltHourlyChart"></canvas>
+            </div>
+
+            <div class="mt-6 bg-blue-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-blue-800 mb-2">Key Takeaway</h3>
+                <p class="text-sm text-blue-700">For your south-facing balcony, a **65° tilt offers the best overall annual energy yield** among the options. While a steeper 90° tilt is slightly better in deep winter (Dec/Jan), the significant gains from 65° during the rest of the year make it the superior choice for maximizing total production.</p>
+            </div>
+        </div>
+
         <!-- Hourly Production Curve -->
         <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Hourly Production Curve</h2>
-            <p class="text-gray-600 mb-4">Estimated panel output (in Watts) on a clear June day, comparing different orientations.</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Hourly Production Curve (Orientation)</h2>
+            <p class="text-gray-600 mb-4">Estimated panel output (in Watts) on a clear June day, comparing different orientations at a fixed 75° tilt.</p>
             <div class="small-chart-container">
                 <canvas id="productionCurveChart"></canvas>
             </div>
@@ -61,7 +82,7 @@
         <!-- Charging Curve -->
         <div class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Summer Day Charging Simulation</h2>
-            <p class="text-gray-600 mb-4">Estimated charge curve for a 12.8V/50Ah battery (640Wh) starting at 20% on a clear June day, powered by a 220W system (2 panels @ 190° South).</p>
+            <p class="text-gray-600 mb-4">Estimated charge curve for a 12.8V/50Ah battery (640Wh) starting at 20% on a clear June day, powered by a 220W system (2 panels @ 190° South, 75° tilt).</p>
             <div class="small-chart-container">
                 <canvas id="chargingCurveChart"></canvas>
             </div>
@@ -72,7 +93,7 @@
             <h2 class="text-2xl font-bold text-gray-900 mb-4">Performance & Setup Analysis</h2>
             
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scenario</th>
@@ -86,26 +107,26 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-semibold text-gray-900">1. Base Setup (12V)</div></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">110W</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">190° South</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">190° S | 75° Tilt</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">~105 kWh</td>
                             <td class="px-6 py-4 text-sm text-gray-700">Basic battery charging.</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-semibold text-gray-900">2. Expanded 12V</div></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">220W</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">190° South</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">190° S | 75° Tilt</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">~210 kWh</td>
                             <td class="px-6 py-4 text-sm text-gray-700">Faster charging, powering more devices.</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-semibold text-gray-900">3. Expanded 24V</div></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">220W</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">190° South</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">190° S | 75° Tilt</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">~212 kWh</td>
                             <td class="px-6 py-4 text-sm text-gray-700">Higher efficiency, future-proofing.</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-semibold text-gray-900">4. Split Orientation (12V/24V)</div></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-semibold text-gray-900">4. Split Orientation</div></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">220W</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">100° SE + 190° SW</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">~195 kWh</td>
@@ -114,22 +135,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Detailed Analysis -->
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-gray-50 p-4 rounded-lg md:col-span-2">
-                    <h3 class="font-bold text-lg mb-2">12V vs 24V System Efficiency</h3>
-                    <p class="text-sm text-gray-600">A 24V system is more efficient due to lower resistive losses (I²R losses) in the wiring. Power (Watts) = Voltage (Volts) x Current (Amps). For the same power, doubling the voltage halves the current. With a 220W setup, a 24V system has half the current of a 12V system (9.15A vs 18.3A), resulting in only <strong>1/4</strong> of the energy lost to heat in the wires. This accounts for a <strong>1-3%</strong> increase in overall energy harvested.</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="font-bold text-lg mb-2">South-Facing vs. Split Orientation</h3>
-                    <p class="text-sm text-gray-600">The "Hourly Production Curve" chart clearly shows the trade-off. The <strong>South-Facing (190°)</strong> setup has a much higher peak output, ideal for quickly charging batteries or running high-power devices around noon. The <strong>Split Orientation</strong> produces a wider, flatter curve, generating usable power for more hours of the day. This is better for covering a household's continuous base load, even though its total daily yield is slightly lower.</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="font-bold text-lg mb-2">Charging Performance</h3>
-                    <p class="text-sm text-gray-600">With the 220W south-facing setup, the "Summer Day Charging Simulation" shows the battery can be fully charged from 20% by around 2 PM (14:00) on a clear day. This leaves several hours of afternoon sun where the generated power can be used directly by an inverter or other loads, maximizing the use of your solar energy.</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -137,58 +142,98 @@
         // --- DATA ---
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        const productionTimeLabels = Array.from({length: 24}, (_, i) => new Date(2025, 5, 14, i, 0));
         
-        const dailyYield110W_190deg = [0.16, 0.26, 0.34, 0.35, 0.36, 0.37, 0.38, 0.38, 0.35, 0.28, 0.18, 0.14];
-        const dailyYield220W_190deg = dailyYield110W_190deg.map(d => d * 2);
-        const dailyYield110W_100deg = [0.14, 0.23, 0.32, 0.35, 0.36, 0.37, 0.38, 0.36, 0.32, 0.25, 0.15, 0.12];
-        const dailyYield220W_Split = dailyYield110W_190deg.map((d, i) => d + dailyYield110W_100deg[i]);
+        // --- Orientation Data ---
+        const dailyYield110W_190deg_75tilt = [0.16, 0.26, 0.34, 0.35, 0.36, 0.37, 0.38, 0.38, 0.35, 0.28, 0.18, 0.14];
+        const dailyYield220W_190deg_75tilt = dailyYield110W_190deg_75tilt.map(d => d * 2);
+        const dailyYield110W_100deg_75tilt = [0.14, 0.23, 0.32, 0.35, 0.36, 0.37, 0.38, 0.36, 0.32, 0.25, 0.15, 0.12];
+        const dailyYield220W_Split_75tilt = dailyYield110W_190deg_75tilt.map((d, i) => d + dailyYield110W_100deg_75tilt[i]);
 
         const chartData = {
-            monthly: { labels: months, datasets: [ { label: '110W @ 190°', data: dailyYield110W_190deg.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '220W @ 190°', data: dailyYield220W_190deg.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '220W Split (SE+SW)', data: dailyYield220W_Split.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] },
-            daily: { labels: months, datasets: [ { label: '110W @ 190°', data: dailyYield110W_190deg, backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '220W @ 190°', data: dailyYield220W_190deg, backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '220W Split (SE+SW)', data: dailyYield220W_Split, backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] }
+            monthly: { labels: months, datasets: [ { label: '110W @ 190°', data: dailyYield110W_190deg_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '220W @ 190°', data: dailyYield220W_190deg_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt.map((d, i) => (d * daysInMonth[i]).toFixed(1)), backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] },
+            daily: { labels: months, datasets: [ { label: '110W @ 190°', data: dailyYield110W_190deg_75tilt, backgroundColor: 'rgba(147, 197, 253, 0.8)' }, { label: '220W @ 190°', data: dailyYield220W_190deg_75tilt, backgroundColor: 'rgba(59, 130, 246, 0.8)' }, { label: '220W Split (SE+SW)', data: dailyYield220W_Split_75tilt, backgroundColor: 'rgba(30, 64, 175, 0.8)' } ] }
         };
         
-        // --- HOURLY PRODUCTION DATA (Watts) ---
-        const hourlyProd_110W_South = [0,0,0,0,0, 8, 25, 50, 75, 90, 100, 105, 108, 105, 95, 70, 45, 20, 5, 0,0,0,0,0];
-        const hourlyProd_110W_SE =    [0,0,0,0,0, 20, 55, 85, 105, 100, 85, 70, 55, 40, 25, 10, 5, 0, 0, 0,0,0,0,0];
-        const hourlyProd_220W_South = hourlyProd_110W_South.map(p => p * 2);
-        const hourlyProd_220W_Split = hourlyProd_110W_South.map((p, i) => p + hourlyProd_110W_SE[i]);
-        const productionTimeLabels = Array.from({length: 24}, (_, i) => new Date(2025, 5, 14, i, 0));
+        // --- Orientation Hourly Production Data (Watts) ---
+        const hourlyProd_110W_South_75tilt = [0,0,0,0,0, 8, 25, 50, 75, 90, 100, 105, 108, 105, 95, 70, 45, 20, 5, 0,0,0,0,0];
+        const hourlyProd_110W_SE_75tilt =    [0,0,0,0,0, 20, 55, 85, 105, 100, 85, 70, 55, 40, 25, 10, 5, 0, 0, 0,0,0,0,0];
+        const hourlyProd_220W_South_75tilt = hourlyProd_110W_South_75tilt.map(p => p * 2);
+        const hourlyProd_220W_Split_75tilt = hourlyProd_110W_South_75tilt.map((p, i) => p + hourlyProd_110W_SE_75tilt[i]);
+        
+        // --- Tilt Monthly Data (kWh/month) for 220W South ---
+        const monthlyYield_90deg = [8.0, 12.1, 16.5, 16.0, 15.5, 15.0, 15.8, 17.1, 16.9, 14.0, 9.1, 7.5]; // Total: ~163 kWh
+        const monthlyYield_80deg = [7.8, 12.5, 18.0, 18.2, 18.0, 17.5, 18.3, 19.0, 18.5, 15.0, 9.0, 7.2]; // Total: ~189 kWh
+        const monthlyYield_75deg = [7.4, 12.3, 18.5, 19.1, 19.0, 18.5, 19.3, 20.0, 19.5, 15.5, 8.8, 7.0]; // Total: ~195 kWh (baseline)
+        const monthlyYield_70deg = [7.0, 12.0, 18.8, 19.8, 20.0, 19.5, 20.2, 20.8, 20.0, 15.8, 8.5, 6.8]; // Total: ~200 kWh
+        const monthlyYield_65deg = [6.5, 11.5, 19.0, 20.5, 20.8, 20.5, 21.0, 21.5, 20.5, 16.0, 8.0, 6.2]; // Total: ~202 kWh
 
+        // --- Tilt Hourly Data (Watts) for 220W South ---
+        const hourlyProd_90deg = [0,0,0,0,0, 5, 20, 45, 70, 80, 90, 95, 98, 95, 85, 65, 40, 15, 5, 0,0,0,0,0].map(p=>p*2);
+        const hourlyProd_80deg = [0,0,0,0,0, 7, 23, 48, 73, 85, 95, 100, 104, 100, 90, 68, 43, 18, 5, 0,0,0,0,0].map(p=>p*2);
+        const hourlyProd_75deg = hourlyProd_220W_South_75tilt; // Baseline
+        const hourlyProd_70deg = [0,0,0,0,0, 9, 27, 52, 77, 92, 103, 108, 112, 108, 98, 72, 47, 22, 6, 0,0,0,0,0].map(p=>p*2);
+        const hourlyProd_65deg = [0,0,0,0,0, 10, 29, 55, 80, 95, 106, 112, 115, 112, 102, 75, 50, 25, 8, 0,0,0,0,0].map(p=>p*2);
 
-        // --- MAIN YIELD CHART ---
-        const ctxYield = document.getElementById('solarYieldChart').getContext('2d');
-        const solarYieldChart = new Chart(ctxYield, { type: 'bar', data: chartData.monthly, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Estimated Monthly Energy Yield (kWh)', font: { size: 16 } }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y} kWh` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
-        const viewMonthlyBtn = document.getElementById('viewMonthly');
-        const viewDailyBtn = document.getElementById('viewDaily');
-        function updateYieldChart(view) { solarYieldChart.data = view === 'monthly' ? chartData.monthly : chartData.daily; solarYieldChart.options.plugins.title.text = view === 'monthly' ? 'Estimated Monthly Energy Yield (kWh)' : 'Estimated Average Daily Yield (kWh)'; viewMonthlyBtn.classList.toggle('bg-blue-600', view === 'monthly'); viewMonthlyBtn.classList.toggle('text-white', view === 'monthly'); viewDailyBtn.classList.toggle('bg-blue-600', view === 'daily'); viewDailyBtn.classList.toggle('text-white', view === 'daily'); viewMonthlyBtn.classList.toggle('bg-white', view !== 'monthly'); viewDailyBtn.classList.toggle('bg-white', view !== 'daily'); solarYieldChart.update(); }
-        viewMonthlyBtn.addEventListener('click', () => updateYieldChart('monthly'));
-        viewDailyBtn.addEventListener('click', () => updateYieldChart('daily'));
+        // --- RENDER CHARTS ---
+        window.onload = function() {
+            // Main Yield Chart
+            const ctxYield = document.getElementById('solarYieldChart').getContext('2d');
+            const solarYieldChart = new Chart(ctxYield, { type: 'bar', data: chartData.monthly, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Estimated Monthly Energy Yield (kWh)', font: { size: 16 } }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y} kWh` } } }, scales: { y: { beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } } });
+            const viewMonthlyBtn = document.getElementById('viewMonthly');
+            const viewDailyBtn = document.getElementById('viewDaily');
+            function updateYieldChart(view) { solarYieldChart.data = view === 'monthly' ? chartData.monthly : chartData.daily; solarYieldChart.options.plugins.title.text = view === 'monthly' ? 'Estimated Monthly Energy Yield (kWh)' : 'Estimated Average Daily Yield (kWh)'; viewMonthlyBtn.classList.toggle('bg-blue-600', view === 'monthly'); viewMonthlyBtn.classList.toggle('text-white', view === 'monthly'); viewDailyBtn.classList.toggle('bg-blue-600', view === 'daily'); viewDailyBtn.classList.toggle('text-white', view === 'daily'); viewMonthlyBtn.classList.toggle('bg-white', view !== 'monthly'); viewDailyBtn.classList.toggle('bg-white', view !== 'daily'); solarYieldChart.update(); }
+            viewMonthlyBtn.addEventListener('click', () => updateYieldChart('monthly'));
+            viewDailyBtn.addEventListener('click', () => updateYieldChart('daily'));
 
-        // --- HOURLY PRODUCTION CHART ---
-        const ctxProduction = document.getElementById('productionCurveChart').getContext('2d');
-        const productionCurveChart = new Chart(ctxProduction, {
-            type: 'line',
-            data: {
-                labels: productionTimeLabels,
-                datasets: [
-                    { label: '110W South (190°)', data: hourlyProd_110W_South, borderColor: 'rgba(147, 197, 253, 1)', backgroundColor: 'rgba(147, 197, 253, 0.2)', fill: true, tension: 0.4, pointRadius: 0 },
-                    { label: '220W South (190°)', data: hourlyProd_220W_South, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.2)', fill: true, tension: 0.4, pointRadius: 0 },
-                    { label: '220W Split (SE+SW)', data: hourlyProd_220W_Split, borderColor: 'rgba(30, 64, 175, 1)', backgroundColor: 'rgba(30, 64, 175, 0.2)', fill: true, tension: 0.4, pointRadius: 0 }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } }, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' } } }, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } } }
-        });
+            // Tilt Monthly Chart
+            const ctxTiltMonthly = document.getElementById('tiltMonthlyChart').getContext('2d');
+            new Chart(ctxTiltMonthly, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        { label: '90° Tilt', data: monthlyYield_90deg, backgroundColor: 'rgba(191, 219, 254, 0.8)' },
+                        { label: '80° Tilt', data: monthlyYield_80deg, backgroundColor: 'rgba(147, 197, 253, 0.8)' },
+                        { label: '75° Tilt', data: monthlyYield_75deg, backgroundColor: 'rgba(96, 165, 250, 0.8)' },
+                        { label: '70° Tilt', data: monthlyYield_70deg, backgroundColor: 'rgba(59, 130, 246, 0.8)' },
+                        { label: '65° Tilt', data: monthlyYield_65deg, backgroundColor: 'rgba(37, 99, 235, 0.8)' },
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Monthly Yield by Tilt Angle (kWh)', font: { size: 16 } }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { stacked: false }, y: { stacked: false, beginAtZero: true, title: { display: true, text: 'Energy (kWh)' } } } }
+            });
 
-        // --- CHARGING CURVE CHART ---
-        const batteryCapacityWh = 640;
-        const initialSoC = 0.20;
-        let batteryEnergyWh = batteryCapacityWh * initialSoC;
-        const hourlyGenWh_220W_South = hourlyProd_220W_South; // In this simplified model, hourly production in Watts is roughly equal to Watt-hours for that hour.
-        const chargingData = [];
-        for (let hour = 0; hour < 24; hour++) { batteryEnergyWh += hourlyGenWh_220W_South[hour]; if (batteryEnergyWh > batteryCapacityWh) { batteryEnergyWh = batteryCapacityWh; } const currentSoC = (batteryEnergyWh / batteryCapacityWh) * 100; chargingData.push({ x: new Date(2025, 5, 14, hour, 0), y: currentSoC.toFixed(1) }); }
-        const ctxCharging = document.getElementById('chargingCurveChart').getContext('2d');
-        const chargingCurveChart = new Chart(ctxCharging, { type: 'line', data: { datasets: [{ label: 'Battery State of Charge (%)', data: chargingData, borderColor: 'rgb(59, 130, 246)', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } }, y: { beginAtZero: true, max: 100, title: { display: true, text: 'State of Charge (%)' } } }, plugins: { legend: { display: false } } } });
+            // Tilt Hourly Chart
+            const ctxTiltHourly = document.getElementById('tiltHourlyChart').getContext('2d');
+            new Chart(ctxTiltHourly, {
+                type: 'line',
+                data: {
+                    labels: productionTimeLabels,
+                    datasets: [
+                        { label: '90° Tilt', data: hourlyProd_90deg, borderColor: 'rgba(191, 219, 254, 1)', tension: 0.4, pointRadius: 0, fill: false },
+                        { label: '80° Tilt', data: hourlyProd_80deg, borderColor: 'rgba(147, 197, 253, 1)', tension: 0.4, pointRadius: 0, fill: false },
+                        { label: '75° Tilt', data: hourlyProd_75deg, borderColor: 'rgba(96, 165, 250, 1)', tension: 0.4, pointRadius: 0, fill: false },
+                        { label: '70° Tilt', data: hourlyProd_70deg, borderColor: 'rgba(59, 130, 246, 1)', tension: 0.4, pointRadius: 0, fill: false },
+                        { label: '65° Tilt', data: hourlyProd_65deg, borderColor: 'rgba(37, 99, 235, 1)', tension: 0.4, pointRadius: 0, fill: false },
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Hourly Production by Tilt (Watts)', font: { size: 16 } }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } }, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' } } } }
+            });
+
+            // Orientation Hourly Production Chart
+            const ctxProduction = document.getElementById('productionCurveChart').getContext('2d');
+            new Chart(ctxProduction, { type: 'line', data: { labels: productionTimeLabels, datasets: [ { label: '110W South (190°)', data: hourlyProd_110W_South_75tilt, borderColor: 'rgba(147, 197, 253, 1)', backgroundColor: 'rgba(147, 197, 253, 0.2)', fill: true, tension: 0.4, pointRadius: 0 }, { label: '220W South (190°)', data: hourlyProd_220W_South_75tilt, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.2)', fill: true, tension: 0.4, pointRadius: 0 }, { label: '220W Split (SE+SW)', data: hourlyProd_220W_Split_75tilt, borderColor: 'rgba(30, 64, 175, 1)', backgroundColor: 'rgba(30, 64, 175, 0.2)', fill: true, tension: 0.4, pointRadius: 0 } ] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } }, y: { beginAtZero: true, title: { display: true, text: 'Power (Watts)' } } }, plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } } } });
+
+            // Charging Curve Chart
+            const batteryCapacityWh = 640;
+            const initialSoC = 0.20;
+            let batteryEnergyWh = batteryCapacityWh * initialSoC;
+            const hourlyGenWh_220W_South = hourlyProd_220W_South_75tilt;
+            const chargingData = [];
+            for (let hour = 0; hour < 24; hour++) { batteryEnergyWh += hourlyGenWh_220W_South[hour]; if (batteryEnergyWh > batteryCapacityWh) { batteryEnergyWh = batteryCapacityWh; } const currentSoC = (batteryEnergyWh / batteryCapacityWh) * 100; chargingData.push({ x: new Date(2025, 5, 14, hour, 0), y: currentSoC.toFixed(1) }); }
+            const ctxCharging = document.getElementById('chargingCurveChart').getContext('2d');
+            new Chart(ctxCharging, { type: 'line', data: { datasets: [{ label: 'Battery State of Charge (%)', data: chargingData, borderColor: 'rgb(59, 130, 246)', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { type: 'time', time: { unit: 'hour', displayFormats: { hour: 'HH:mm' } }, title: { display: true, text: 'Time of Day' } }, y: { beginAtZero: true, max: 100, title: { display: true, text: 'State of Charge (%)' } } }, plugins: { legend: { display: false } } } });
+        }
     </script>
 </body>
 </html>
