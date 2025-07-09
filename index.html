@@ -87,8 +87,6 @@
             </div>
         </div>
 
-        
-
         <div id="yield-comparison" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Balcony Solar Yield Comparison</h2>
             <p class="text-gray-600 mb-4">Comparing different system setups in Zurich. Dashed line represents annual average.</p>
@@ -103,14 +101,6 @@
                 <canvas id="solarYieldChart"></canvas>
             </div>
         </div>
-        
-        <div id="tilt-optimization" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Tilt Angle Optimization (220W South)</h2>
-            <p class="text-gray-600 mb-4">A steeper angle (90°) favors winter sun, while a shallower angle (65°) maximizes summer and annual yield.</p>
-            <div class="small-chart-container mb-8">
-                <canvas id="tiltMonthlyChart"></canvas>
-            </div>
-        </div>
 
         <div id="ideal-scenario" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
             <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Ideal vs. Static Tilt Scenario</h2>
@@ -121,16 +111,24 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                 <div class="bg-gray-100 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Static (80°)</h3>
-                    <p class="text-3xl font-bold text-gray-700" id="staticTotalYield">179 kWh/year</p>
+                    <p class="text-3xl font-bold text-gray-700" id="staticTotalYield"></p>
                 </div>
                 <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                     <h3 class="text-lg font-semibold text-blue-800">Optimized (70°/85°)</h3>
-                    <p class="text-3xl font-bold text-blue-600" id="optimizedTotalYield">191 kWh/year</p>
+                    <p class="text-3xl font-bold text-blue-600" id="optimizedTotalYield"></p>
                 </div>
                  <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                     <h3 class="text-lg font-semibold text-green-800">Ideal (65°/85°)</h3>
-                    <p class="text-3xl font-bold text-green-600" id="idealTotalYield">196 kWh/year</p>
+                    <p class="text-3xl font-bold text-green-600" id="idealTotalYield"></p>
                 </div>
+            </div>
+        </div>
+        
+        <div id="tilt-optimization" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Tilt Angle Optimization (220W South)</h2>
+            <p class="text-gray-600 mb-4">A steeper angle (90°) favors winter sun, while a shallower angle (65°) maximizes summer and annual yield.</p>
+            <div class="small-chart-container mb-8">
+                <canvas id="tiltMonthlyChart"></canvas>
             </div>
         </div>
 
@@ -139,7 +137,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Total System Cost</h3>
-                    <p class="text-3xl font-bold text-blue-600">588 CHF</p>
+                    <p class="text-3xl font-bold text-blue-600">520 CHF</p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="text-lg font-semibold text-gray-500">Est. Annual Savings</h3>
@@ -150,7 +148,7 @@
                     <p class="text-3xl font-bold text-blue-600" id="paybackPeriod"></p>
                 </div>
             </div>
-            <p class="text-xs text-gray-500 mt-4">Calculations based on the Ideal (65°/85°) system and an electricity price of 0.26 CHF/kWh.</p>
+            <p class="text-xs text-gray-500 mt-4">Calculations based on the Ideal (65°/85°) system and an electricity price of 0.31 CHF/kWh.</p>
         </div>
 
         <div id="autarky-analysis" class="bg-white p-6 rounded-2xl shadow-lg mb-8">
